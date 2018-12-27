@@ -17,12 +17,12 @@ Do note that the example table wouldnt work with group-queries such as avg,sum, 
 
 [MQTT INGESTION SOURCE](https://crate.io/docs/crate/reference/en/latest/admin/ingestion/sources/mqtt.html#mqtt-data-structure)
 
-# Useage
+# Usage
 CrateDB provides a "admin" panel on localhost:4200, here you can explore tables, run queries and see load of the server.
-(THE BASICS OF QUERYING)[https://crate.io/docs/crate/getting-started/en/latest/first-use/query.html]
+[THE BASICS OF QUERYING](https://crate.io/docs/crate/getting-started/en/latest/first-use/query.html)
 
 ## CrateDB HTTP Endpoint API
-CreateDB provides a HTTP Endpoint, by use of HTTP-POST Body-Requests. (ref)[https://crate.io/docs/crate/reference/en/latest/interfaces/http.html]
+CreateDB provides a HTTP Endpoint, by use of HTTP-POST Body-Requests. [ref](https://crate.io/docs/crate/reference/en/latest/interfaces/http.html)
 Another example of this is found [here](https://crate.io/docs/crate/getting-started/en/latest/first-use/query.html#the-cratedb-http-endpoint)
 
 ## Scripts
@@ -37,36 +37,35 @@ I've mostly reused the examples from the docus, with exception on changing objec
 Ingestion rules are documented [here](https://crate.io/docs/crate/reference/en/latest/admin/ingestion/rules.html)
 
 ## MQTT topic 'events/system*'
-- ( *=wildcard )
+( *=wildcard )
 ```sql
 CREATE TABLE IF NOT EXISTS mqtt.system_information (
-    client_id STRING,
-    packet_id INTEGER,
-    topic STRING,
-    ts TIMESTAMP,
-    payload OBJECT,
-    PRIMARY KEY ("client_id", "packet_id")
+  client_id STRING,
+  packet_id INTEGER,
+  topic STRING,
+  ts TIMESTAMP,
+  payload OBJECT,
+  PRIMARY KEY ("client_id", "packet_id")
 );
-CREATE INGEST RULE system_monitoring
-                ON mqtt
-             WHERE topic LIKE 'events/system%'
-              INTO mqtt.system_information;
+CREATE INGEST RULE system_monitoring ON mqtt
+  WHERE topic LIKE 'events/system%'
+  INTO mqtt.system_information;
 ```
 
 ## MQTT topic 'temperature/*'
-- ( *=wildcard )
+( *=wildcard )
 ```sql
 CREATE TABLE mqtt_temperature (
- "client_id" STRING,
- "packet_id" INTEGER,
- "topic" STRING,
- "ts" TIMESTAMP,
- "payload" OBJECT(IGNORED),
- PRIMARY KEY ("client_id", "packet_id")
+  "client_id" STRING,
+  "packet_id" INTEGER,
+  "topic" STRING,
+  "ts" TIMESTAMP,
+  "payload" OBJECT(IGNORED),
+  PRIMARY KEY ("client_id", "packet_id")
 );
 CREATE INGEST RULE temperature ON mqtt
- WHERE topic like 'temperature/%'
- INTO mqtt_temperature;
+  WHERE topic like 'temperature/%'
+  INTO mqtt_temperature;
 ```
 
 # Random ref urls
